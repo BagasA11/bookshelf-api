@@ -1,0 +1,20 @@
+{
+  "name": "bookselfapi",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env  src/server.js",
+    "replicate": "node --env-file=.env src/replicate/IBMGranite.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.0",
+    "nano-id": "^1.1.0",
+    "nanoid": "^5.1.5",
+    "replicate": "^1.0.1"
+  }
+}
