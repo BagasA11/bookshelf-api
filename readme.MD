@@ -1,4 +1,4 @@
-```markdown
+
 # Bookshelf API Documentation
 
 ## I. Introduction
@@ -162,4 +162,6 @@ To generate the documentation, run the command: `npm run snap`
   ```json
   {
     "name": string,
-    "year":
+    "year": number
+  }
+  
