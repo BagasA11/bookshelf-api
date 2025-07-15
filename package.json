@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=.env  src/server.js",
-    "replicate": "node --env-file=.env src/replicate/IBMGranite.js"
+    "replicate": "node --env-file=.env  src/replicate/IBMGranite.js",
+    "snap": "node --env-file=.env ./documenter.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,136 @@
+API endpoint
+
+1. Create Book
+POST http://{host}/api/v1/books
+- Header 
+ - Accept: "application/json"
+- body (json): 
+{
+    "name": string,
+    "year": number,
+    "author": string,
+    "summary": string,
+    "publisher": string,
+    "pageCount": number,
+    "readPage": number,
+    "reading": boolean
+}
+
+- response:
+ - onfail:
+    status code: 400
+   {
+    "status": "fail",
+    "message": string
+   }
+ - onsuccess:
+   status code: 201
+   {
+    "status": "success",
+    "message": string,
+    "data": {
+        "bookId": string
+    }
+   }
+
+2. Get All Book
+GET http://{host}/api/v1/books
+ 
+- response:
+ - onsuccess:
+    - status code: 200
+    {
+        "status": "success",
+        "data": {
+            "books": []
+        }
+    }
+    - status code: 200 
+    {
+        "status": "success",
+        "data": {
+            "books": [
+                {
+                    "id": "Qbax5Oy7L8WKf74l",
+                    "name": "Buku A",
+                    "publisher": "Dicoding Indonesia"
+                },
+                {
+                    "id": "1L7ZtDUFeGs7VlEt",
+                    "name": "Buku B",
+                    "publisher": "Dicoding Indonesia"
+                },
+                {
+                    "id": "K8DZbfI-t3LrY7lD",
+                    "name": "Buku C",
+                    "publisher": "Dicoding Indonesia"
+                }
+            ]
+        }
+    }
+    
+3. Get Book Detail
+GET http://{host}/api/v1/books{bookId}
+
+- response:
+ - onfail
+  - status code: 404
+    {
+        "status": "fail",
+        "message": "not found"
+    }
+ - onsuccess
+  - status code: 200
+  {
+        "status": "success",
+        "data": {
+            "book": {
+                "id": string,
+                "name": string,
+                "year": number,
+                "author": string,
+                "summary": string,
+                "publisher": string,
+                "pageCount": number,
+                "readPage": number,
+                "finished": boolean,
+                "reading": boolean,
+                "insertedAt": string,
+                "updatedAt": string
+            }
+        }
+    }
+
+4. Update Book Data
+PUT http://{host}/api/v1/books/{bookId}
+- Header: 
+ - Accept: "application/json"
+- body: raw (json):
+    {
+        "name": string,
+        "year": number,
+        "author": string,
+        "summary": string,
+        "publisher": string,
+        "pageCount": number,
+        "readPage": number,
+        "reading": boolean
+    }
+- response: 
+ - onfail: 
+  - status code: 400
+    {
+        "status": "fail",
+        "message": string
+    }
+  - status code: 404
+    {
+        "status": "fail",
+        "message": string
+    }
+ - onsuccess:
+  - status code: 200
+  {
+    "status": "success",
+    "message": "Buku berhasil diperbarui"
+   }
