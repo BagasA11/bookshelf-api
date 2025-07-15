@@ -14,6 +14,14 @@ export function getList(){
     });
 }
 
-export function list(){
-    return BookArray;
-} 
+// export function list(){
+//     return BookArray;
+// } 
+
+export function getDetail(bookID){
+
+}
+
+export function update(bookID){}
+
+export function remove(bookID){}
