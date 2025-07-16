@@ -33,11 +33,11 @@ export class BookCreateDto {
 
   toObject() {
     return {
-      name: this.name,
+      name: String(this.name),
       year: Number(this.year),
-      author: this.author,
-      summary: this.summary,
-      publisher: this.publisher,
+      author: String(this.author),
+      summary: String(this.summary),
+      publisher: String(this.publisher),
       pageCount: Number(this.pageCount),
       readPage: Number(this.readPage),
       reading: Boolean(this.reading)

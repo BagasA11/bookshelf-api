@@ -2,7 +2,7 @@
 
 // fail {400, 404}
 // @param {string} message
-export const failRequest = (message) => {
+export const FailRequest = (message) => {
     return {
         status: 'fail',
         message: message
@@ -14,10 +14,10 @@ export const failRequest = (message) => {
 /*
 * @param {string} bookID, message
 */
-export const statusCreated = (bookID, message) => {
+export const StatusCreated = (bookID, message) => {
     return {
         status: 'success',
-        message: message,
+        message: String(message),
         data: {
             bookId: bookID,
         }
@@ -31,20 +31,18 @@ export const success = (message) => {
     };
 };
 
-export const bookDetail = (message, book) => {
+export const BookDetail = (book) => {
     return {
         status: 'success',
-        message: message,
         data: {
             book: book,
         }
     };
 };
 
-export const bookList = (message, books) => {
+export const BookList = (books) => {
     return {
         status: 'success',
-        message: message,
         data: {
             books: books,
         }
