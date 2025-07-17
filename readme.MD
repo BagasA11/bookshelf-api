@@ -7,17 +7,12 @@ The Bookshelf API is a RESTful service designed for managing a collection of boo
 
 ## II. Tech Stack
 
-- Node.js: merupakan runtime backend JavaScript berbasis Chrome V8 engine.
-
-- HapiJS: framework backend untuk membangun API dengan struktur modular dan aman.
-
-- IBM Granite Instruct 3.3-8b: model AI untuk menghasilkan teks atau dokumentasi secara otomatis.
-
-- nvm: alat untuk mengelola dan berpindah versi Node.js dengan mudah.
-
-- pm2: proses manager untuk menjalankan dan memonitor aplikasi Node.js di background.
-
-- IDCloudhost: penyedia layanan cloud dan hosting asal Indonesia.
+- Node.js: A JavaScript runtime built on Chrome's V8 engine for backend development.
+- HapiJS: A backend framework for building secure and modular APIs.
+- IBM Granite Instruct: An AI model for generating text or documentation automatically.
+- nvm: A tool to manage and switch between multiple Node.js versions easily.
+- pm2: A process manager to run and monitor Node.js applications in the background.
+- IDCloudhost: An Indonesian-based cloud and hosting service provider.
 
 ## III. IBM Granite Instruct
 
