@@ -12,12 +12,12 @@ export function insertBookHandler(req, h){
         const bookID = addBook(input.toObject());
 
         return h.
-        response(StatusCreated(bookID, 'a book is created')).
-        code(200);
+        response(StatusCreated(bookID, 'Buku berhasil ditambahkan')).
+        code(201);
     
     } catch (error) {
         return h.
-        response(FailRequest(`failed to create book with error:${error}`)).
+        response(FailRequest(`${error.message}`)).
         code(400);
     }    
 } 
@@ -35,11 +35,11 @@ export function bookDetailHandler(req, h){
 
     const bookDetail = getBookDetail(String(bookID));
     // console.log(`buku: ${bookDetail}`);
-
-    if (bookDetail === null){
-        return h.response(FailRequest('book not found')).
+    if (!bookDetail){
+        return h.response(FailRequest('Buku tidak ditemukan')).
         code(404);
     }
+   
     return h.response(BookDetail(bookDetail)).code(200);
 }
 
@@ -53,20 +53,28 @@ export function updateBookHandler(req, h){
 
         updateBook(bookId, input);
 
-        return h.response(Success(`update book ${bookId} success`)).
+        return h.response(Success('Buku berhasil diperbarui')).
         code(200);
 
     } catch(error){
-        console.error(error);
-        if(error.name === 'not found error'){
-            return h.response(FailRequest(`book with id:${bookId} not found`)).
-            code(404);
-        } else if(error.name === 'validation error'){
-            return h.response(FailRequest(`invalid request, err:${error}`)).
+        console.error(`${error.name}:${error.message}`);
+
+       if (error.name === String('validation error')){
+            const fieldMessages = {
+            name: 'Gagal memperbarui buku. Mohon isi nama buku',
+            default: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+            };
+
+            const message = fieldMessages[error.field] || fieldMessages.default;
+
+            return h.response(FailRequest(message)).code(400);
+
+        } else if (error.name === String('not found error')){
+            return h.response(FailRequest(String(error.message))).
             code(404);
         }
-        return h.response(FailRequest('ups something went wrong')).
-        code(500); 
+
+        return h.response(FailRequest(`ups something went wrong ${error.message}`)).code(500);
     }
 }
 

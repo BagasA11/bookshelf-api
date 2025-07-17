@@ -5,7 +5,7 @@ export const Book = (data)=>{
         name, year, author,
         summary, publisher,
         pageCount, readPage,
-        finished, reading
+        reading
     } = data;
 
     return {
@@ -17,9 +17,9 @@ export const Book = (data)=>{
         publisher: publisher,
         pageCount: Number(pageCount),
         readPage: Number(readPage),
-        finished: Boolean(finished),
+        finished: Number(readPage) === Number(pageCount)? true : false ,
         reading: Boolean(reading),
-        createdAt: new Date().toISOString(),
+        insertedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     };
 };

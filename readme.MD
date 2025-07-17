@@ -32,7 +32,8 @@ To generate this documentation, run `npm run snap`.
 
 ### Host and Parameter Definitions
 
-- `{host}`: A hostname consisting of an IP address and port number (e.g., `127.0.0.1:3000`).
+- `{host}`: A hostname consisting of an IP address and port number 
+  (the production host is `103.186.0.229:9000`).
 - `{bookId}`: A parameter representing the unique ID of a book used in certain endpoints.
 
 ### API Endpoints

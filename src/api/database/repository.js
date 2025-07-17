@@ -27,18 +27,14 @@ function getIndex(bookID){
 }
 
 export function getBookDetail(bookID){
-    const bookDetail = bookList.filter(book => book.id === String(bookID));
-    // console.log(bookDetail);
-    if (bookDetail.length === 0){
-        return null;
-    }
-    return Book(bookDetail[0]);
+    const bookDetail = bookList.find((book) => book.id === String(bookID));
+    return bookDetail;
 }
 
 export function updateBook(bookID, bookData){
     const index = getIndex(String(bookID));
     if (index < 0){
-        throw new NotFoundError(`book data with id:${bookID} not found`);
+        throw new NotFoundError(`Gagal memperbarui buku. Id tidak ditemukan`);
     }
     bookList.splice(index, 1, Book(bookData));
 }

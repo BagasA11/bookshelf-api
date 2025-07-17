@@ -1,5 +1,7 @@
 import { ValidationError } from "../../error/err.js";
 
+// import { ValidationError } from "../../error/err";
+
 export class BookCreateDto {
   constructor({
     name, year, author, summary, publisher, 
@@ -17,11 +19,13 @@ export class BookCreateDto {
 
   validate() {
     if (!this.name || typeof this.name !== "string") {
-      throw new ValidationError("Gagal menambahkan buku. Mohon isi nama buku");
+      throw new ValidationError("Gagal menambahkan buku. Mohon isi nama buku", 'name');
+      // throw new ValidationError("Gagal menambahkan buku. Mohon isi nama buku");
     }
 
     if (this.readPage > this.pageCount) {
-      throw new ValidationError("Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount");
+      throw new ValidationError("Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount", 'readPage');
+      // throw new Error("Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount");
     }
 
     return true;
