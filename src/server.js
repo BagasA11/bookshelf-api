@@ -1,8 +1,7 @@
 'use strict';
 // const Hapi = require('@hapi/hapi');
 import Hapi from '@hapi/hapi';
-import { bookRouters } from './routers/book..routers.js';
-// import { insert, getList, list } from './api/database/repository.js';
+import { bookRouters } from './routers/book.routers.js';
 
 const port = process.env.PORT;
 const mode = process.env.ENVIRONMENT;

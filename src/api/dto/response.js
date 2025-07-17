@@ -24,7 +24,7 @@ export const StatusCreated = (bookID, message) => {
     };
 };
 
-export const success = (message) => {
+export const Success = (message) => {
     return {
         status: 'success',
         message: message

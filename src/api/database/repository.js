@@ -1,15 +1,17 @@
 import {Book} from './models.js';
+import { NotFoundError } from '../../error/err.js';
 
-const BookArray = [];
 
-export function insert(data){
+const bookList = [];
+
+export function addBook(data){
     const book = Book(data);
-    BookArray.push(book);
+    bookList.push(book);
     return book.id;
 }
 
-export function getList(){
-    return BookArray.map(({ id, name, publisher }) =>{
+export function getBookList(){
+    return bookList.map(({ id, name, publisher }) =>{
         return {id,
         name, 
         publisher}
@@ -17,11 +19,15 @@ export function getList(){
 }
 
 // export function list(){
-//     return BookArray;
+//     return bookList;
 // } 
 
-export function getDetail(bookID){
-    const bookDetail = BookArray.filter(book => book.id === String(bookID));
+function getIndex(bookID){
+    return bookList.findIndex(book => book.id === String(bookID));
+}
+
+export function getBookDetail(bookID){
+    const bookDetail = bookList.filter(book => book.id === String(bookID));
     // console.log(bookDetail);
     if (bookDetail.length === 0){
         return null;
@@ -29,6 +35,18 @@ export function getDetail(bookID){
     return Book(bookDetail[0]);
 }
 
-export function update(bookID){}
+export function updateBook(bookID, bookData){
+    const index = getIndex(String(bookID));
+    if (index < 0){
+        throw new NotFoundError(`book data with id:${bookID} not found`);
+    }
+    bookList.splice(index, 1, Book(bookData));
+}
 
-export function remove(bookID){}
+export function removeBook(bookID){
+    const index = getIndex(String(bookID));
+    if (index < 0){
+        throw new NotFoundError(`book data with id:${bookID} not found`);
+    }
+    bookList.splice(index, 1);
+}
