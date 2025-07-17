@@ -3,16 +3,21 @@
 
 ## I. Introduction
 
-The Bookshelf API is a RESTful service designed to manage a collection of books. To get started, follow these steps:
-
-1. Install dependencies: `npm install`
-2. Create a `.env` file based on `.env.example`.
+The Bookshelf API is a RESTful service designed for managing a collection of books. To get started, run `npm install` to install dependencies. Create a `.env` file based on `.env.example` to configure environment variables.
 
 ## II. Tech Stack
 
-- **Node.js**: JavaScript runtime
-- **HapiJS**: Framework for building APIs
-- **IBM Granite Instruct**: For generating API documentation
+- Node.js: merupakan runtime backend JavaScript berbasis Chrome V8 engine.
+
+- HapiJS: framework backend untuk membangun API dengan struktur modular dan aman.
+
+- IBM Granite Instruct 3.3-8b: model AI untuk menghasilkan teks atau dokumentasi secara otomatis.
+
+- nvm: alat untuk mengelola dan berpindah versi Node.js dengan mudah.
+
+- pm2: proses manager untuk menjalankan dan memonitor aplikasi Node.js di background.
+
+- IDCloudhost: penyedia layanan cloud dan hosting asal Indonesia.
 
 ## III. IBM Granite Instruct
 
@@ -22,21 +27,27 @@ IBM Granite is an advanced AI model capable of understanding and generating huma
 
 ### 3.2 Usage for Documentation
 
-To generate the documentation, run the command: `npm run snap`
+To generate this documentation, run `npm run snap`.
 
 ### 3.3 Prompt Command
 
-"Create an API documentation file for the Bookshelf API, detailing endpoints, request methods, parameters, headers, and response formats. Use Markdown syntax for clarity and structure." (...)
+"Create comprehensive API documentation for the Bookshelf API, including endpoint descriptions, request/response formats, and status codes. Ensure to cover all available endpoints: Create Book, Get All Books, Get Book Detail, Update Book Data, and Remove Book Data." (...)
 
 ## IV. API Reference
 
-### 1. Create Book
+### Host and Parameter Definitions
 
-**POST** `http://{host}/api/v1/books`
+- `{host}`: A hostname consisting of an IP address and port number (e.g., `127.0.0.1:3000`).
+- `{bookId}`: A parameter representing the unique ID of a book used in certain endpoints.
+
+### API Endpoints
+
+#### 1. Create Book
+
+**POST** `http://{host}/books`
 
 - **Header**
   - `Accept`: `"application/json"`
-
 - **Body (json)**
   ```json
   {
@@ -52,16 +63,14 @@ To generate the documentation, run the command: `npm run snap`
   ```
 
 - **Response**
-  - **onfail**
-    - `status code`: 400
+  - **onfail** (status code: 400)
     ```json
     {
       "status": "fail",
       "message": string
     }
     ```
-  - **onsuccess**
-    - `status code`: 201
+  - **onsuccess** (status code: 201)
     ```json
     {
       "status": "success",
@@ -72,13 +81,12 @@ To generate the documentation, run the command: `npm run snap`
     }
     ```
 
-### 2. Get All Books
+#### 2. Get All Books
 
-**GET** `http://{host}/api/v1/books`
+**GET** `http://{host}/books`
 
 - **Response**
-  - **onsuccess**
-    - `status code`: 200
+  - **onsuccess** (status code: 200)
     ```json
     {
       "status": "success",
@@ -87,8 +95,7 @@ To generate the documentation, run the command: `npm run snap`
       }
     }
     ```
-    - or
-    - `status code`: 200
+  - **onsuccess** (status code: 200)
     ```json
     {
       "status": "success",
@@ -114,21 +121,19 @@ To generate the documentation, run the command: `npm run snap`
     }
     ```
 
-### 3. Get Book Detail
+#### 3. Get Book Detail
 
-**GET** `http://{host}/api/v1/books/{bookId}`
+**GET** `http://{host}/books/{bookId}`
 
 - **Response**
-  - **onfail**
-    - `status code`: 404
+  - **onfail** (status code: 404)
     ```json
     {
       "status": "fail",
       "message": "not found"
     }
     ```
-  - **onsuccess**
-    - `status code`: 200
+  - **onsuccess** (status code: 200)
     ```json
     {
       "status": "success",
@@ -151,17 +156,65 @@ To generate the documentation, run the command: `npm run snap`
     }
     ```
 
-### 4. Update Book Data
+#### 4. Update Book Data
 
-**PUT** `http://{host}/api/v1/books/{bookId}`
+**PUT** `http://{host}/books/{bookId}`
 
 - **Header**
   - `Accept`: `"application/json"`
-
-- **Body**
+- **Body (raw json)**
   ```json
   {
     "name": string,
-    "year": number
+    "year": number,
+    "author": string,
+    "summary": string,
+    "publisher": string,
+    "pageCount": number,
+    "readPage": number,
+    "reading": boolean
   }
-  
+  ```
+
+- **Response**
+  - **onfail** (status code: 400)
+    ```json
+    {
+      "status": "fail",
+      "message": string
+    }
+    ```
+  - **onfail** (status code: 404)
+    ```json
+    {
+      "status": "fail",
+      "message": string
+    }
+    ```
+  - **onsuccess** (status code: 200)
+    ```json
+    {
+      "status": "success",
+      "message": "Buku berhasil diperbarui"
+    }
+    ```
+
+#### 5. Remove Book Data
+
+**DELETE** `http://{host}/books/{bookId}`
+
+- **Response**
+  - **onfail** (status code: 404)
+    ```json
+    {
+      "status": "fail",
+      "message": string
+    }
+    ```
+  - **onsuccess** (status code: 200)
+    ```json
+    {
+      "status": "success",
+      "message": string
+    }
+    ```

@@ -1,7 +1,7 @@
 API endpoint
 
 1. Create Book
-POST http://{host}/api/v1/books
+POST http://{host}/books
 - Header 
  - Accept: "application/json"
 - body (json): 
@@ -34,7 +34,7 @@ POST http://{host}/api/v1/books
    }
 
 2. Get All Book
-GET http://{host}/api/v1/books
+GET http://{host}/books
  
 - response:
  - onsuccess:
@@ -70,7 +70,7 @@ GET http://{host}/api/v1/books
     }
     
 3. Get Book Detail
-GET http://{host}/api/v1/books{bookId}
+GET http://{host}/books{bookId}
 
 - response:
  - onfail
@@ -102,7 +102,7 @@ GET http://{host}/api/v1/books{bookId}
     }
 
 4. Update Book Data
-PUT http://{host}/api/v1/books/{bookId}
+PUT http://{host}/books/{bookId}
 - Header: 
  - Accept: "application/json"
 - body: raw (json):
@@ -134,3 +134,21 @@ PUT http://{host}/api/v1/books/{bookId}
     "status": "success",
     "message": "Buku berhasil diperbarui"
    }
+
+5. Remove Book Data
+DELETE http://{host}/books/{bookId}
+
+ - response:
+   - onfail: 
+    - status code: 404
+    {
+        "status": "fail",
+        "message": string
+    }
+   - onsuccess:
+    - status code:200
+    {
+        "status": "success",
+        "message": string
+    }
+    

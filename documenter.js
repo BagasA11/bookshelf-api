@@ -8,7 +8,7 @@ const endpoint = `
 API endpoint
 
 1. Create Book
-POST http://{host}/api/v1/books
+POST http://{host}/books
 - Header 
  - Accept: "application/json"
 - body (json): 
@@ -41,7 +41,7 @@ POST http://{host}/api/v1/books
    }
 
 2. Get All Book
-GET http://{host}/api/v1/books
+GET http://{host}/books
  
 - response:
  - onsuccess:
@@ -77,7 +77,7 @@ GET http://{host}/api/v1/books
     }
     
 3. Get Book Detail
-GET http://{host}/api/v1/books{bookId}
+GET http://{host}/books{bookId}
 
 - response:
  - onfail
@@ -109,7 +109,7 @@ GET http://{host}/api/v1/books{bookId}
     }
 
 4. Update Book Data
-PUT http://{host}/api/v1/books/{bookId}
+PUT http://{host}/books/{bookId}
 - Header: 
  - Accept: "application/json"
 - body: raw (json):
@@ -141,9 +141,28 @@ PUT http://{host}/api/v1/books/{bookId}
     "status": "success",
     "message": "Buku berhasil diperbarui"
    }
+
+5. Remove Book Data
+DELETE http://{host}/books/{bookId}
+
+ - response:
+   - onfail: 
+    - status code: 404
+    {
+        "status": "fail",
+        "message": string
+    }
+   - onsuccess:
+    - status code:200
+    {
+        "status": "success",
+        "message": string
+    }
+    
 `;
 
-var prompt = `Generate an API documentation file in Markdown format with the following structure:
+const prompt = `
+Generate an API documentation file in Markdown format with the following structure:
 
 I. Introduction: Provide a general explanation of an API called "Bookshelf API" and describe the configuration steps, including running <npm install>, and creating a <.env> file with content based on <.env.example>.
 
@@ -154,17 +173,23 @@ III. IBM Granite Instruct:
   3.2 Usage for Documentation: Explain how to use the model to generate documentation, specifically by running the command <npm run snap>.
   3.3 Prompt Command: Write down the first 50 words of the prompt used to run the model, then end it with ellipsis (...). For example: "create an image of the man sitting in the garden with a cup of coffee, wearing a brown jacket and looking at the sky while birds fly over..."
 
-IV. API Reference: List the available API endpoints, where the APIs are described using the parameter [param].
+IV. API Reference:
+Start this section by explaining that:
+ - \`{host}\` is a hostname consisting of an IP address and port number (e.g., \`127.0.0.1:3000\`).
+ - \`{bookId}\` is a parameter representing the unique ID of a book used in certain endpoints.
+
+Then, list the available API endpoints, where each API is described using the parameter [param].
 [param]
 ${endpoint}
 
 Return only a valid Markdown file structure with appropriate headings and content. Do not include any code comments or extra explanation outside of the Markdown structure.
 `;
 
+
 // console.log(prompt);
 const top_k = 45;
 const top_p = 0.7;
-const max_tokens = 950;
+const max_tokens = 1500;
 const model = new IBMInstruct();
 
 const promptObject = Input({top_k: top_k, top_p, prompt, max_tokens})
