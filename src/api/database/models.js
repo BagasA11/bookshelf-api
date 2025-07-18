@@ -1,6 +1,6 @@
-import {nanoid} from "nanoid";
 
-export const Book = (data)=>{
+
+export const Book = (id, data)=>{
     const {
         name, year, author,
         summary, publisher,
@@ -9,7 +9,7 @@ export const Book = (data)=>{
     } = data;
 
     return {
-        id: nanoid(),
+        id: String(id),
         name: name,
         year: Number(year),
         author: author,

@@ -23,8 +23,10 @@ export function insertBookHandler(req, h){
 } 
 
 export function bookListHandler(req, h){
-    const list = getBookList();
-
+    const { name, reading, finished } = req.query;
+    
+    const list = getBookList({ name, reading, finished });
+    
     return h.
     response(BookList(list)).
     code(200);
@@ -83,7 +85,7 @@ export function deleteBookHandler(req, h){
 
     try {
         removeBook(String(bookId));
-        return h.response(Success(`book with id:${bookId} succesfuly removed`)).
+        return h.response(Success(`Buku berhasil dihapus`)).
         code(200);
 
     } catch (error) {
