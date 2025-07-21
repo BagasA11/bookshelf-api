@@ -32,7 +32,7 @@ export class BookCreateDto {
   }
 
   toObject() {
-    return {
+    const dtoObject = {
       name: String(this.name),
       year: Number(this.year),
       author: String(this.author),
@@ -42,5 +42,6 @@ export class BookCreateDto {
       readPage: Number(this.readPage),
       reading: Boolean(this.reading)
     };
+    return dtoObject;
   }
 }

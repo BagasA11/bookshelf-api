@@ -8,8 +8,8 @@ export function insertBookHandler(req, h){
     try {
         const input = new BookCreateDto(payload);
         input.validate();
-
-        const bookID = addBook(input.toObject());
+        const inputObject = input.toObject();
+        const bookID = addBook(inputObject);
 
         return h.
         response(StatusCreated(bookID, 'Buku berhasil ditambahkan')).
@@ -37,7 +37,7 @@ export function bookDetailHandler(req, h){
 
     const bookDetail = getBookDetail(String(bookID));
     // console.log(`buku: ${bookDetail}`);
-    if (!bookDetail){
+    if (typeof bookDetail === 'undefined'){
         return h.response(FailRequest('Buku tidak ditemukan')).
         code(404);
     }
@@ -53,7 +53,7 @@ export function updateBookHandler(req, h){
         const input = new BookCreateDto(payload);
         input.validate();
 
-        updateBook(bookId, input);
+        updateBook(bookId, input.toObject());
 
         return h.response(Success('Buku berhasil diperbarui')).
         code(200);
@@ -62,14 +62,15 @@ export function updateBookHandler(req, h){
         console.error(`${error.name}:${error.message}`);
 
        if (error.name === String('validation error')){
-            const fieldMessages = {
-            name: 'Gagal memperbarui buku. Mohon isi nama buku',
-            default: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
-            };
 
-            const message = fieldMessages[error.field] || fieldMessages.default;
+            var messageErr;
+            if (error.field === String('name')){
+                messageErr = 'Gagal memperbarui buku. Mohon isi nama buku';
+            } else {
+                messageErr = 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount';
+            }
 
-            return h.response(FailRequest(message)).code(400);
+            return h.response(FailRequest(messageErr)).code(400);
 
         } else if (error.name === String('not found error')){
             return h.response(FailRequest(String(error.message))).
@@ -90,7 +91,7 @@ export function deleteBookHandler(req, h){
 
     } catch (error) {
         console.error(error);
-        return h.response(FailRequest(`book with id:${bookId} not found`)).
+        return h.response(FailRequest('Buku gagal dihapus. Id tidak ditemukan')).
         code(404);
     }
 }

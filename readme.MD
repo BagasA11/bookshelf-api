@@ -214,3 +214,253 @@ To generate this documentation, run `npm run snap`.
       "message": string
     }
     ```
+```markdown
+# Bookshelf API Documentation
+
+## I. Introduction
+
+The Bookshelf API is a Node.js application built with HapiJS, designed to manage a collection of books. To get started, run `npm install` to install dependencies. Then, create a `.env` file based on `.env.example` to configure environment variables such as the database connection string.
+
+## II. Tech Stack
+
+- Node.js
+- HapiJS
+- IBM Granite Instruct
+
+## III. IBM Granite Instruct
+
+### 3.1 What is IBM Granite
+
+IBM Granite is an advanced AI model capable of understanding and generating human-like text based on given prompts. It can be utilized for various tasks, including documentation generation.
+
+### 3.2 Usage for Documentation
+
+To generate this documentation, run the command `npm run snap`.
+
+### 3.3 Prompt Command
+
+"Create an API documentation file for the Bookshelf API, detailing endpoints, request/response formats, and necessary configurations..." (ellipsis)
+
+## IV. API Reference
+
+### Host and Parameters
+
+- `{host}`: A hostname consisting of an IP address and port number (e.g., `127.0.0.1:3000`).
+- `{bookId}`: A unique identifier for a book, used in specific endpoints.
+
+### API Endpoints
+
+#### 1. Create Book
+
+**Endpoint:** POST `http://{host}/books`
+
+**Request**
+
+- Header: 
+  - `Accept: "application/json"`
+- Body (json):
+
+```json
+{
+    "name": string,
+    "year": number,
+    "author": string,
+    "summary": string,
+    "publisher": string,
+    "pageCount": number,
+    "readPage": number,
+    "reading": boolean
+}
+```
+
+**Response**
+
+- On fail:
+  - Status code: 400
+  - Body:
+
+```json
+{
+    "status": "fail",
+    "message": string
+}
+```
+
+- On success:
+  - Status code: 201
+  - Body:
+
+```json
+{
+    "status": "success",
+    "message": string,
+    "data": {
+        "bookId": string
+    }
+}
+```
+
+#### 2. Get All Books
+
+**Endpoint:** GET `http://{host}/books`
+
+**Response**
+
+- On success:
+  - Status code: 200
+  - Body:
+
+```json
+{
+    "status": "success",
+    "data": {
+        "books": [
+            {
+                "id": "Qbax5Oy7L8WKf74l",
+                "name": "Buku A",
+                "publisher": "Dicoding Indonesia"
+            },
+            {
+                "id": "1L7ZtDUFeGs7VlEt",
+                "name": "Buku B",
+                "publisher": "Dicoding Indonesia"
+            },
+            {
+                "id": "K8DZbfI-t3LrY7lD",
+                "name": "Buku C",
+                "publisher": "Dicoding Indonesia"
+            }
+        ]
+    }
+}
+```
+
+#### 3. Get Book Detail
+
+**Endpoint:** GET `http://{host}/books/{bookId}`
+
+**Response**
+
+- On fail:
+  - Status code: 404
+  - Body:
+
+```json
+{
+    "status": "fail",
+    "message": "not found"
+}
+```
+
+- On success:
+  - Status code: 200
+  - Body:
+
+```json
+{
+    "status": "success",
+    "data": {
+        "book": {
+            "id": string,
+            "name": string,
+            "year": number,
+            "author": string,
+            "summary": string,
+            "publisher": string,
+            "pageCount": number,
+            "readPage": number,
+            "finished": boolean,
+            "reading": boolean,
+            "insertedAt": string,
+            "updatedAt": string
+        }
+    }
+}
+```
+
+#### 4. Update Book Data
+
+**Endpoint:** PUT `http://{host}/books/{bookId}`
+
+**Request**
+
+- Header: 
+  - `Accept: "application/json"`
+- Body (raw json):
+
+```json
+{
+    "name": string,
+    "year": number,
+    "author": string,
+    "summary": string,
+    "publisher": string,
+    "pageCount": number,
+    "readPage": number,
+    "reading": boolean
+}
+```
+
+**Response**
+
+- On fail:
+  - Status code: 400
+  - Body:
+
+```json
+{
+    "status": "fail",
+    "message": string
+}
+```
+  - Status code: 404
+  - Body:
+
+```json
+{
+    "status": "fail",
+    "message": string
+}
+```
+
+- On success:
+  - Status code: 200
+  - Body:
+
+```json
+{
+    "status": "success",
+    "message": "Buku berhasil diperbarui"
+}
+```
+
+#### 5. Remove Book Data
+
+**Endpoint:** DELETE `http://{host}/books/{bookId}`
+
+**Response**
+
+- On fail:
+  - Status code: 404
+  - Body:
+
+```json
+{
+    "status": "fail",
+    "message": string
+}
+```
+
+- On success:
+  - Status code: 200
+  - Body:
+
+```json
+{
+    "status": "success",
+    "message": string
+}
+```
+```
+
+This Markdown file provides a structured overview of the Bookshelf API, including its tech stack, usage of IBM Granite Instruct for documentation, and detailed API reference with endpoints, request/response formats, and status codes.

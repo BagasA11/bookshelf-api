@@ -1,5 +1,4 @@
 
-
 export const Book = (id, data)=>{
     const {
         name, year, author,
@@ -8,7 +7,7 @@ export const Book = (id, data)=>{
         reading
     } = data;
 
-    return {
+    const book = {
         id: String(id),
         name: name,
         year: Number(year),
@@ -21,5 +20,7 @@ export const Book = (id, data)=>{
         reading: Boolean(reading),
         insertedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
-    };
+    }
+
+    return book;
 };

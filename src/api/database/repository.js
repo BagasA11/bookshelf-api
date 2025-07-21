@@ -12,19 +12,38 @@ export function addBook(data){
 }
 
 export function getBookList(filter){
-    const { name, reading, finished } = filter;
+    const { 
+        name, 
+        reading, 
+        finished 
+    } = filter;
+
+    console.log(`<${name} ${reading} ${finished}>`);
 
     return bookList.
     filter((book) => {
-        const matchName = name? 
-            book.name.toLowerCase().includes(name.toLowerCase()):
-            true;
-        const matchReading = typeof reading !== 'undefined'?
-            book.reading === Boolean(Number(reading)):
-            true;
-        const matchFinished = typeof finished !== 'undefined'?
-            book.finished === Boolean(Number(finished)):
-            true;
+
+        var matchName;
+        if (typeof name !== 'undefined'){
+            matchName = book.name.toLowerCase().includes(name.toLowerCase());
+        } else {
+            matchName = true;
+        }
+
+        var matchReading;
+        if (typeof reading !== 'undefined'){
+            matchReading = book.reading === Boolean(Number(reading));
+        } else {
+            matchReading = true;
+        }
+
+        var matchFinished;
+        if (typeof finished !== 'undefined'){
+            matchFinished = (book.finished === Boolean(Number(finished)));
+        } else{
+            matchFinished = true;
+        }
+    
         return matchName && matchReading && matchFinished;
     }).map(({id, name, publisher}) => ({id, name, publisher}));
 }
@@ -34,11 +53,12 @@ export function getBookList(filter){
 // } 
 
 function getIndex(bookID){
-    return bookList.findIndex(book => book.id === String(bookID));
+    const index = bookList.findIndex(book => book.id === String(bookID));
+    return index;
 }
 
 export function getBookDetail(bookID){
-    const bookDetail = bookList.find((book) => book.id === String(bookID));
+    const bookDetail = bookList.find((bookData) => bookData.id === String(bookID));
     return bookDetail;
 }
 

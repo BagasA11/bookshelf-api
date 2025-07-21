@@ -22,7 +22,7 @@ const init = async () => {
     server.route(bookRouters);
 
     await server.start();
-    console.log('Server running on %s', server.info.uri);
+    console.log('Server is running on %s', server.info.uri);
 }
 
 init();
