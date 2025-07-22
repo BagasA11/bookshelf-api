@@ -4,9 +4,11 @@ import { ValidationError } from "../../error/err.js";
 
 export class BookCreateDto {
   constructor({
-    name, year, author, summary, publisher, 
-    pageCount, readPage, reading
-  }) {
+    name = null, year = 0, 
+    author = null, summary = null, 
+    publisher = null, pageCount = 0, 
+    readPage = 0, reading = false
+  } = {}) {
     this.name = name;
     this.year = year;
     this.author = author;
@@ -18,7 +20,7 @@ export class BookCreateDto {
   }
 
   validate() {
-    if (!this.name || typeof this.name !== "string") {
+    if (this.name === null || typeof this.name !== "string") {
       throw new ValidationError("Gagal menambahkan buku. Mohon isi nama buku", 'name');
       // throw new ValidationError("Gagal menambahkan buku. Mohon isi nama buku");
     }
@@ -31,7 +33,10 @@ export class BookCreateDto {
     return true;
   }
 
+  // convert dto class to json like object
   toObject() {
+    // create an object using class property
+    // then return it
     const dtoObject = {
       name: String(this.name),
       year: Number(this.year),

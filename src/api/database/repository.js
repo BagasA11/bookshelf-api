@@ -2,7 +2,7 @@ import {Book} from './models.js';
 import { NotFoundError } from '../../error/err.js';
 import { nanoid } from 'nanoid';
 
-const bookList = [];
+const bookList = []; //create empty array
 
 export function addBook(data){
     const id = nanoid();
@@ -22,7 +22,9 @@ export function getBookList(filter){
 
     return bookList.
     filter((book) => {
-
+        // create variabel true if undefined, and return true if only defined and match
+        // if params not specified will return true
+        // name
         var matchName;
         if (typeof name !== 'undefined'){
             matchName = book.name.toLowerCase().includes(name.toLowerCase());
@@ -30,20 +32,22 @@ export function getBookList(filter){
             matchName = true;
         }
 
+        // reading: 1 for true, 0 for false
         var matchReading;
         if (typeof reading !== 'undefined'){
-            matchReading = book.reading === Boolean(Number(reading));
+            matchReading = book.reading === asBooleanInput(reading);
         } else {
             matchReading = true;
         }
-
+        // finished: 1 for true, 0 for else
         var matchFinished;
         if (typeof finished !== 'undefined'){
-            matchFinished = (book.finished === Boolean(Number(finished)));
+            matchFinished = (book.finished === asBooleanInput(finished));
         } else{
             matchFinished = true;
         }
-    
+        
+        // return only match item. 
         return matchName && matchReading && matchFinished;
     }).map(({id, name, publisher}) => ({id, name, publisher}));
 }
@@ -77,4 +81,12 @@ export function removeBook(bookID){
         throw new NotFoundError(`book data with id:${bookID} not found`);
     }
     bookList.splice(index, 1);
+}
+
+function asBooleanInput(input){
+    if (input == 1){
+        return true;
+    } else {
+        return false;
+    }
 }

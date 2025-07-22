@@ -1,6 +1,7 @@
 import { addBook, getBookList, getBookDetail, updateBook, removeBook } from "../database/repository.js";
 import { BookCreateDto } from "../dto/request.js";
 import { BookList, BookDetail, StatusCreated, FailRequest, Success} from "../dto/response.js";
+import { EnumStatus, ResponseHelper } from "../utils/responsehelper.js";
 
 export function insertBookHandler(req, h){
     const payload  = req.payload;
@@ -11,25 +12,21 @@ export function insertBookHandler(req, h){
         const inputObject = input.toObject();
         const bookID = addBook(inputObject);
 
-        return h.
-        response(StatusCreated(bookID, 'Buku berhasil ditambahkan')).
-        code(201);
+       return ResponseHelper(h, StatusCreated(bookID, 'Buku berhasil ditambahkan'), EnumStatus['CREATED']);
     
     } catch (error) {
-        return h.
-        response(FailRequest(`${error.message}`)).
-        code(400);
+        return ResponseHelper(h, FailRequest(`${error.message}`), EnumStatus['BADREQUEST']);
     }    
 } 
 
 export function bookListHandler(req, h){
-    const { name, reading, finished } = req.query;
+    const { name, reading, finished } = req.query; //query param from url using req.query.
+    // ex: /page?name=xxx&year=2025
     
     const list = getBookList({ name, reading, finished });
     
-    return h.
-    response(BookList(list)).
-    code(200);
+    // code is 200
+    return ResponseHelper(h, BookList(list), EnumStatus['SUCCESS']);
 }
 
 export function bookDetailHandler(req, h){
@@ -38,11 +35,11 @@ export function bookDetailHandler(req, h){
     const bookDetail = getBookDetail(String(bookID));
     // console.log(`buku: ${bookDetail}`);
     if (typeof bookDetail === 'undefined'){
-        return h.response(FailRequest('Buku tidak ditemukan')).
-        code(404);
+        // status code is 404
+        return ResponseHelper(h, FailRequest('Buku tidak ditemukan'), EnumStatus['NOTFOUND']);
     }
-   
-    return h.response(BookDetail(bookDetail)).code(200);
+    // status code 200
+    return ResponseHelper(h, BookDetail(bookDetail), EnumStatus['SUCCESS']);
 }
 
 export function updateBookHandler(req, h){
@@ -54,12 +51,11 @@ export function updateBookHandler(req, h){
         input.validate();
 
         updateBook(bookId, input.toObject());
-
-        return h.response(Success('Buku berhasil diperbarui')).
-        code(200);
+        // status code is 200
+        return ResponseHelper(h, Success('Buku berhasil diperbarui'), EnumStatus['SUCCESS']);
 
     } catch(error){
-        console.error(`${error.name}:${error.message}`);
+        // console.error(`${error.name}:${error.message}`);
 
        if (error.name === String('validation error')){
 
@@ -70,11 +66,11 @@ export function updateBookHandler(req, h){
                 messageErr = 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount';
             }
 
-            return h.response(FailRequest(messageErr)).code(400);
-
+            // status code is 400
+            return ResponseHelper(h, FailRequest(messageErr), EnumStatus['BADREQUEST']);
         } else if (error.name === String('not found error')){
-            return h.response(FailRequest(String(error.message))).
-            code(404);
+            // status code is 404
+            return ResponseHelper(h, FailRequest(String(error.message)), EnumStatus['NOTFOUND']);
         }
 
         return h.response(FailRequest(`ups something went wrong ${error.message}`)).code(500);
@@ -85,13 +81,11 @@ export function deleteBookHandler(req, h){
     const bookId = req.params.bookId;
 
     try {
-        removeBook(String(bookId));
-        return h.response(Success(`Buku berhasil dihapus`)).
-        code(200);
+        removeBook(bookId);
+        return ResponseHelper(h, Success(`Buku berhasil dihapus`), EnumStatus['SUCCESS']);
 
     } catch (error) {
         console.error(error);
-        return h.response(FailRequest('Buku gagal dihapus. Id tidak ditemukan')).
-        code(404);
+        return ResponseHelper(h, FailRequest('Buku gagal dihapus. Id tidak ditemukan'), EnumStatus['NOTFOUND']);
     }
 }
