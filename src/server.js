@@ -3,8 +3,8 @@
 import Hapi from '@hapi/hapi';
 import { bookRouters } from './routers/book.routers.js';
 
-const port = process.env.PORT;
-const mode = process.env.ENVIRONMENT;
+const port = process.env.SERVICE_PORT;
+const mode = process.env.SERVICE_ENV;
 
 console.log(`${mode}:${port}`)
 const createListener = async () => {
