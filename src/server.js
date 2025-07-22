@@ -7,7 +7,7 @@ const port = process.env.PORT;
 const mode = process.env.ENVIRONMENT;
 
 console.log(`${mode}:${port}`)
-const init = async () => {
+const createListener = async () => {
     const server = Hapi.server({
         port: port,
         host: mode === 'development'? 'localhost' : '0.0.0.0',
@@ -21,8 +21,14 @@ const init = async () => {
 
     server.route(bookRouters);
 
-    await server.start();
-    console.log('Server is running on %s', server.info.uri);
+    try {
+        await server.start();
+        console.log('Server is running on %s', server.info.uri);
+        
+    } catch (error) {
+        console.error(error);
+        process.exit(1); //exit when errors occurs
+    }
 }
 
-init();
+createListener();

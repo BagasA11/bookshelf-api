@@ -9,7 +9,7 @@ export function insertBookHandler(req, h){
     try {
         const input = new BookCreateDto(payload);
         input.validate();
-        const inputObject = input.toObject();
+        const inputObject = input.plainObject;
         const bookID = addBook(inputObject);
 
        return ResponseHelper(h, StatusCreated(bookID, 'Buku berhasil ditambahkan'), EnumStatus['CREATED']);
@@ -50,7 +50,7 @@ export function updateBookHandler(req, h){
         const input = new BookCreateDto(payload);
         input.validate();
 
-        updateBook(bookId, input.toObject());
+        updateBook(bookId, input.plainObject);
         // status code is 200
         return ResponseHelper(h, Success('Buku berhasil diperbarui'), EnumStatus['SUCCESS']);
 

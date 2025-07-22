@@ -25,6 +25,10 @@ export class BookCreateDto {
       // throw new ValidationError("Gagal menambahkan buku. Mohon isi nama buku");
     }
 
+    if ((typeof this.readPage !== 'number') || (typeof this.pageCount !== 'number')) {
+      throw new ValidationError('readPage or pageCount type must be number', ['readPage', 'pageCount'])
+    }
+
     if (this.readPage > this.pageCount) {
       throw new ValidationError("Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount", 'readPage');
       // throw new Error("Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount");
@@ -34,17 +38,17 @@ export class BookCreateDto {
   }
 
   // convert dto class to json like object
-  toObject() {
+  get plainObject() {
     // create an object using class property
     // then return it
     const dtoObject = {
-      name: String(this.name),
+      name: this.name,
       year: Number(this.year),
       author: String(this.author),
       summary: String(this.summary),
       publisher: String(this.publisher),
-      pageCount: Number(this.pageCount),
-      readPage: Number(this.readPage),
+      pageCount: this.pageCount,
+      readPage: this.readPage,
       reading: Boolean(this.reading)
     };
     return dtoObject;
